@@ -1,12 +1,15 @@
 '''
+
 	TODO:
 	* Implement normalize func
 	* Attempt to google wiki \"...\" part of question
 	* Rid of common appearances in 3 options
 	* Automate screenshot process
 	* Implement Asynchio for concurrency
+
 	//Script is in working condition at all times
 	//TODO is for improving accuracy
+
 '''
 
 # answering bot for trivia HQ and Cash Show
@@ -23,6 +26,7 @@ import pyscreenshot as Imagegrab
 import sys
 import wx
 from halo import Halo
+
 
 # for terminal colors
 class bcolors:
@@ -43,6 +47,7 @@ remove_words = []
 
 # negative words
 negative_words= []
+
 
 # GUI interface
 def gui_interface():
