@@ -15,6 +15,8 @@
 # answering bot for trivia HQ and Cash Show
 import json
 import urllib2 as urllib2
+import webbrowser
+
 from bs4 import BeautifulSoup
 from google import google
 from PIL import Image
@@ -54,7 +56,7 @@ negative_words = []
 def gui_interface():
     app = wx.App()
     frame = wx.Frame(None, -1, 'win.py')
-    frame.SetDimensions(0, 0, 640, 480)
+    frame.SetDimensions(0, 480, 380, 380)
     frame.Show()
     app.MainLoop()
     return None
@@ -71,7 +73,8 @@ def load_json():
 # take screenshot of question
 def screen_grab(to_save):
     # 31,228 485,620 co-ords of screenshot// left side of screen
-    im = Imagegrab.grab(bbox=(31, 228, 485, 620))
+    #im = Imagegrab.grab(bbox=(25, 300, 345, 670))
+    im = Imagegrab.grab(bbox=(25, 228, 365, 540))
     im.save(to_save)
 
 
@@ -104,14 +107,14 @@ def read_screen():
 
     # load the image as a PIL/Pillow image, apply OCR, and then delete the temporary file
     text = pytesseract.image_to_string(Image.open(filename))
-    os.remove(filename)
-    os.remove(screenshot_file)
+    #os.remove(filename)
+    #os.remove(screenshot_file)
 
     # show the output images
 
     '''cv2.imshow("Image", image)
 	cv2.imshow("Output", gray)
-	os.remove(screenshot_file)
+	#os.remove(screenshot_file)
 	if cv2.waitKey(0):
 		cv2.destroyAllWindows()
 	print(text)
@@ -126,21 +129,16 @@ def parse_question():
     lines = text.splitlines()
     question = ""
     options = list()
-    flag = False
-
-    for line in lines:
-        if not flag:
-            question = question + " " + line
-
-        if '?' in line:
-            flag = True
-            continue
-
-        if flag:
-            if line != '':
+    c=0
+    for line in reversed(lines):
+        if line!='':
+            if c<3:
                 options.append(line)
+                c+=1
+            else:
+                question = line + " " + question
 
-    return question, options
+    return question, list(reversed(options))
 
 
 # simplify question and remove which,what....etc //question is string
@@ -232,7 +230,7 @@ def google_wiki(sim_ques, options, neg):
 
         # get google search results for option + 'wiki'
         search_wiki = google.search(o, num_pages)
-        print(search_wiki)
+        #print(search_wiki)
         link = search_wiki[0].link
         content = get_page(link)
         soup = BeautifulSoup(content, "lxml")
