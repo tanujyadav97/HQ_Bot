@@ -26,7 +26,6 @@ import pyscreenshot as Imagegrab
 import sys
 import wx
 from halo import Halo
-
 # for terminal colors
 class bcolors:
 	HEADER = '\033[95m'
