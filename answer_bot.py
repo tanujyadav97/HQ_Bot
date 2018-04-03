@@ -199,6 +199,7 @@ def smart_answer(content,qwords):
 
 # use google to get wiki page
 def google_wiki(sim_ques, options, neg):
+
     spinner = Halo(text='Googling and searching Wikipedia', spinner='dots2')
     spinner.start()
     num_pages = 1
